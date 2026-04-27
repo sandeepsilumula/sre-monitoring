@@ -1,0 +1,30 @@
+name: SRE Network Monitor
+
+# 1. When should this script run?
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '*/30 * * * *' # Runs automatically every 30 minutes
+
+jobs:
+  run-monitor:
+    # 2. What kind of server should it run on?
+    runs-on: ubuntu-latest
+
+    # 3. What exact steps should the server take?
+    steps:
+      # Step A: Download your code from your GitHub repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step B: Install Python on the server
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Step C: Execute your script
+      - name: Run Monitoring Script
+        run: python3 network_check.py
